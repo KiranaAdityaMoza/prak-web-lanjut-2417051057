@@ -1,28 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold text-dark mb-1">Data Mahasiswa</h3>
+            <p class="text-muted small mb-0">Daftar seluruh mahasiswa yang terdaftar dalam sistem.</p>
+        </div>
+        <a href="{{ url('/user/create') }}" class="btn btn-siakad rounded-2 px-3 py-2 fw-medium">
+            + Tambah User
+        </a>
+    </div>
 
-<h1>Daftar Pengguna</h1>
-
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nama</th>
-            <th>NPM</th>
-            <th>Kelas</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($users as $user)
-            <tr>
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->nama }}</td>
-                <td>{{ $user->npm }}</td>
-                <td>{{ $user->nama_kelas }}</td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
-
+    <x-table :users="$users" />
+</div>
 @endsection
