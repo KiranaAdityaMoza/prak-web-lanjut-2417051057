@@ -1,29 +1,43 @@
-@props(['users'])
-
 <div class="table-responsive">
-    <table class="table table-bordered table-striped align-middle mb-0 table-siakad table-siakad-bordered">
-        <thead>
-            <tr class="text-center">
-                <th class="py-3" style="width: 70px;">No</th>
-                <th class="py-3">Nama Mahasiswa</th>
-                <th class="py-3">NPM / NIM</th>
-                <th class="py-3">Kelas</th>
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>ID / UUID</th>
+                <th>Nama</th>
+                <th>NPM</th>
+                <th>Kelas</th>
+                <th class="text-center">Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($users as $index => $user)
-            <tr>
-                <td class="text-center text-secondary py-3">{{ $index + 1 }}</td>
-                <td class="fw-semibold text-dark py-3 px-3">{{ $user->nama }}</td>
-                <td class="text-center font-monospace text-dark py-3">{{ $user->nim }}</td>
-                <td class="text-center text-dark py-3">{{ $user->nama_kelas }}</td>
-            </tr>
+            @forelse ($users as $user)
+                <tr>
+                    <td class="text-muted small">{{ $user->id }}</td>
+                    <td class="fw-medium text-dark">{{ $user->nama }}</td>
+                    <td>{{ $user->nim }}</td>
+                    <td>{{ $user->nama_kelas ?? $user->kelas->nama_kelas ?? '-' }}</td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center gap-2">
+                            {{-- Tombol Edit --}}
+                            <a href="{{ url('/user/' . $user->id . '/edit') }}" class="btn btn-sm btn-outline-primary rounded-2 px-3">
+                                Edit
+                            </a>
+
+                            {{-- Tombol Hapus --}}
+                            <form action="{{ url('/user/' . $user->id) }}" method="POST" class="d-inline m-0">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger rounded-2 px-3" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                    Hapus
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
             @empty
-            <tr>
-                <td colspan="4" class="text-center py-5 text-muted">
-                    Belum ada data mahasiswa terdaftar.
-                </td>
-            </tr>
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">Belum ada data mahasiswa.</td>
+                </tr>
             @endforelse
         </tbody>
     </table>
